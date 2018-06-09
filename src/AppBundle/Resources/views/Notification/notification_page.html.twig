@@ -1,0 +1,28 @@
+{% extends 'AppBundle:Layouts:layout.html.twig'%}
+{% block content%}
+	<div class="container">
+		<div class="col-lg-12 box-default box-notifiations">
+			<h1 class="box-header">Notificaciones</h1>
+			<div class="box-content">
+				{% for notifiation in pagination %}
+					<div class="col-lg-12 notifiation-item">
+						<div class="alert alert-default">
+							<span class="glyphicon glyphicon-info-sign aria-hidden="true">
+							</span>
+							{% set noti = notifiation.typeId|get_user %}
+							
+							{% if notifiation.type == "follow" %}
+								<a href="{{path("user_profile", {'nickname':noti.nickname})}}">{{noti.name}} {{noti.surname}}</a> te esta siguiendo
+							{% endif %}
+							
+							{% if notifiation.type == "like" %}
+								<a href="{{path("user_profile", {'nickname':noti.nickname})}}">{{noti.name}} {{noti.surname}}</a> usuario le ha dado me gusta a una de tus publicaciones
+							{% endif %}
+						</div>
+					</div>
+				{% endfor %}
+				<div class="clearfix"></div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

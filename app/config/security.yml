@@ -1,0 +1,58 @@
+# To get started with security, check out the documentation:
+# http://symfony.com/doc/current/security.html
+security:
+    encoders:
+        BackendBundle\Entity\User:
+            algorithm: bcrypt
+            cost: 4
+
+    # http://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
+    providers:
+        user_db_provider:
+            entity:
+                class: BackendBundle:User
+                property: email
+
+    firewalls:
+        # disables authentication for assets and the profiler, adapt it according to your needs
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        main:
+            anonymous: ~
+            provider: user_db_provider
+            form_login:
+                login_path: /login
+                check_path: /login_check
+            logout:
+                path: logout
+                target: /
+            # activate different ways to authenticate
+
+            # http_basic: ~
+            # http://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
+
+            # form_login: ~
+            # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
+    access_control:
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/home, roles: [ROLE_USER, ROLE_ADMIN] }
+        - { path: ^/publications/remove, roles: [ROLE_USER, ROLE_ADMIN] }
+        - { path: ^/my-data, roles: [ROLE_USER, ROLE_ADMIN] }
+        - { path: ^/people, roles: [ROLE_USER, ROLE_ADMIN] }
+        - { path: ^/search, roles: [ROLE_USER, ROLE_ADMIN] }
+        - { path: ^/user, roles: [ROLE_USER, ROLE_ADMIN] }
+        - { path: ^/private-message, roles: [ROLE_USER, ROLE_ADMIN] }
+        - { path: ^/private-message/sended, roles: [ROLE_USER, ROLE_ADMIN] }
+        - { path: ^/private-message/notification/get, roles: [ROLE_USER, ROLE_ADMIN] }
+        - { path: ^/notifications/get, roles: [ROLE_USER, ROLE_ADMIN] }
+        - { path: ^/notifications, roles: [ROLE_USER, ROLE_ADMIN] }
+        - { path: ^/like, roles: [ROLE_USER, ROLE_ADMIN] }
+        - { path: ^/dislike, roles: [ROLE_USER, ROLE_ADMIN] }
+        - { path: ^/likes, roles: [ROLE_USER, ROLE_ADMIN] }
+        - { path: ^/follow, roles: [ROLE_USER, ROLE_ADMIN] }
+        - { path: ^/unfollow, roles: [ROLE_USER, ROLE_ADMIN] }
+        - { path: ^/following, roles: [ROLE_USER, ROLE_ADMIN] }
+        - { path: ^/followed, roles: [ROLE_USER, ROLE_ADMIN] }

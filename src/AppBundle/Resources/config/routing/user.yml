@@ -1,0 +1,49 @@
+login:
+    path: /login
+    defaults: { _controller:AppBundle:User:login }
+    
+login_check:
+    path: /login_check
+    
+logout:
+    path: /logout
+    
+register:
+    path: /register
+    defaults: { _controller:AppBundle:User:register }
+    
+user_nickname_test:
+    path: /nickname-test
+    defaults: { _controller: AppBundle:User:nicknameTest }
+    methods: [POST]
+    
+user_edit:
+    path: /my-data
+    defaults: { _controller:AppBundle:User:editUser }
+    
+user_list:
+    path: /people
+    defaults: { _controller:AppBundle:User:listUsers }
+    
+user_search:
+    path: /search
+    defaults: { _controller: AppBundle:User:searchUser}
+    
+user_profile:
+    path: /user/{nickname}
+    defaults: { _controller: AppBundle:User:profile, nickname:null }
+    
+user_active:
+    path: /active
+    defaults: { _controller: AppBundle:User:active }
+    methods: [POST]
+    
+user_deactive:
+    path: /deactive
+    defaults: { _controller: AppBundle:User:deactive }
+    methods: [POST]
+    
+user_delete:
+    path: /delete/{user_id}
+    defaults: { _controller: AppBundle:User:delete }
+    methods: [POST]

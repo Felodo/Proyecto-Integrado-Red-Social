@@ -1,0 +1,96 @@
+{% extends "AppBundle:Layouts:layout.html.twig" %}
+{% block content %}
+<div class="container">
+	<div class="col-lg-12 box-default">
+		<h1 class="box-header">Mensajeria privada</h1>
+		
+		<div class="col-lg-6 box-private-message">
+			<h4>Enviar nuevo mensaje privado</h4>
+			{{form_start(form, {'action':'','method':'POST'})}}
+			{{form_end(form)}}
+			
+			<br>
+			<a href="{{path('private_message_sended')}}" class="btn-show-send btn btn-warning">Ver mensajes enviados</a>
+		</div>
+		
+		<div class="col-lg-6">
+			
+			<h4>Mensajes recibidos</h4>
+			
+			<div class="box-content box-messages">
+				{% for message in pagination %}
+					<div class="col-lg-12 publication-item">
+						<div class="avatar">
+							{% if message.emitter.image == null %}
+								<img src="{{ asset('assets/images/default.png')}}">
+							{% else %}
+								<img src="{{ asset('uploads/users/'~message.emitter.image)}}">
+							{% endif %}
+						</div>
+						<div class="publication-item-content">
+							<p>
+								De <a class="pub-name-link" href="{{path('user_profile', {'nickname':message.emitter.nickname})}}">{{message.emitter.name}} {{message.emitter.surname}}</a> - {{message.emitter.nickname}}
+								<br>
+								Para <a class="pub-name-link" href="{{path('user_profile', {'nickname':message.receiver.nickname})}}"> {{message.receiver.name}} {{message.receiver.surname}} </a> - {{message.receiver.nickname}}
+								<br>
+								<span class="pub-date">
+									{{message.createdAt|date('l j M Y g:ia')|replace({
+										'January'  : 'Enero',
+										'February' : 'Febrero',
+										'March' : 'Marzo',
+										'April' : 'Abril',
+										'May' : 'Mayo',
+										'June' : 'Junio',
+										'July' : 'Julio',
+										'August' : 'Agosto',
+										'September' : 'Septiembre',
+										'October' : 'Octubre',
+										'November' : 'Noviembre',
+										'December' : 'Diciembre',
+										'Monday'   : 'Lunes',
+										'Tuesday' : 'Martes',
+										'Wednesday' : 'Miercoles',
+										'Thursday' : 'Jueves',
+										'Friday' : 'Viernes',
+										'Saturday' : 'Sabado',
+										'Sunday'   : 'Domingo'})}} <br>{{message.createdAt|long_time}}
+								</span>
+							</p>
+							<p>{{message.message}}</p>
+							
+							{% if (message.file is defined) and (message.file != null) %}
+								<a href="{{asset('uploads/messages/files/'~message.file)}}"
+									class="btn-doc glyphicon glyphicon-save" aria-hidden="true" target="_blank"></a>
+							{% endif %}
+							
+							{% if (message.image is defined) and (message.image != null) %}
+								<span class="btn-img glyphicon glyphicon-picture" aria-hidden="true"></span>
+								<div class="clearfix"></div>
+								
+								<div class="pub-image">
+									<img src="{{asset('uploads/messages/images/'~message.image)}}"></img>
+								</div>
+							{% endif %}
+							
+						</div>
+						<div class="clearfix"></div>
+						<hr>
+					</div>
+					
+					
+				{% endfor%}
+				<div class="navigation">
+					{{ knp_pagination_render(pagination) }}
+				</div>
+			</div>
+			
+		</div>
+		
+		<div class="clearfix"></div>
+	</div>
+		
+		
+		<div class="clearfix"></div>
+	</div>
+</div>
+{% endblock %}

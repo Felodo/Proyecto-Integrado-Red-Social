@@ -1,0 +1,11 @@
+like_publication:
+    path: /like/{id}
+    defaults: { _controller: AppBundle:Like:like, id:null }
+    
+dislike_publication:
+    path: /dislike/{id}
+    defaults: { _controller: AppBundle:Like:dislike, id:null }
+    
+likes_users:
+    path: /likes/{nickname}
+    defaults: { _controller: AppBundle:Like:likes, nickname:null }
